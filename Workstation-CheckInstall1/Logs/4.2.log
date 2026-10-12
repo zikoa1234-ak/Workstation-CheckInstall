@@ -1,0 +1,11 @@
+2026-10-12 16:52:32 === Installation started for PFM Data Bridge (ID: 4.2) ===
+2026-10-12 16:52:32 Installer path: C:\Users\ak-47\Desktop\hht-inventory\Workstation-CheckInstall\Installers\PfmDataBridge 7.3.5.0.msi
+2026-10-12 16:52:32 Type: MSI
+2026-10-12 16:52:32 SilentArgs: /qn /norestart
+2026-10-12 16:52:32 Starting installer...
+2026-10-12 16:52:32 Command: msiexec.exe /i "C:\Users\ak-47\Desktop\hht-inventory\Workstation-CheckInstall\Installers\PfmDataBridge 7.3.5.0.msi" /qn /norestart
+2026-10-12 16:52:37 Installer exit code: 0
+2026-10-12 16:52:37 Re-scanning registry...
+2026-10-12 16:52:39 Re-scan completed.
+2026-10-12 16:52:39 Result: PASS | RebootRequired: False
+2026-10-12 16:52:39 === Installation finished ===
