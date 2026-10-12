@@ -107,6 +107,10 @@ tr.installing td.badge { color: #9a6700; }
 </div>
 <div class="toolbar">
     <button onclick="doRescan()">RESCAN ALL</button>
+    <span style="margin-left:20px; font-weight:bold;">Template:
+        <select id="tplSelect" onchange="onTemplateChange()" style="padding:8px; font-size:14px;"></select>
+    </span>
+    <button onclick="doEditTemplate()" style="margin-left:8px;">EDIT TEMPLATE</button>
     <span id="message" class="msg">Click RESCAN ALL to begin</span>
 </div>
 <div id="summary" class="summary neutral">Click RESCAN ALL</div>
@@ -152,6 +156,8 @@ rawPath = rawPath.replace(/\//g, '\\');
 var rootDir   = fso.GetParentFolderName(rawPath);
 var statusF   = rootDir + '\\Output\\status.json';
 var engineDir = rootDir + '\\Engine';
+var tplDir    = rootDir + '\\Templates';
+var tplFile   = rootDir + '\\Output\\template.txt';
 
 // ---- Display ----
 document.getElementById('statusPath').innerText = statusF;
@@ -189,6 +195,68 @@ function runScript(ps1file, psArgs) {
     } catch (e) {
         document.getElementById('message').innerText = 'Error launching script: ' + e.message;
     }
+}
+
+// ---- Templates ----
+function getSavedTemplate() {
+    try {
+        if (!fso.FileExists(tplFile)) return '';
+        var t = fso.OpenTextFile(tplFile, 1, false);
+        var v = t.AtEndOfStream ? '' : t.ReadAll();
+        t.Close();
+        return v.replace(/^\s+|\s+$/g, '');
+    } catch (e) {
+        return '';
+    }
+}
+
+function saveTemplate(name) {
+    try {
+        if (!fso.FolderExists(rootDir + '\\Output')) { fso.CreateFolder(rootDir + '\\Output'); }
+        var t = fso.CreateTextFile(tplFile, true);
+        t.Write(name);
+        t.Close();
+    } catch (e) {
+        document.getElementById('message').innerText = 'Error saving template choice: ' + e.message;
+    }
+}
+
+function loadTemplates() {
+    var sel = document.getElementById('tplSelect');
+    sel.options.length = 0;
+    var first = document.createElement('option');
+    first.value = '';
+    first.text  = '-- All applications --';
+    sel.add(first);
+    if (fso.FolderExists(tplDir)) {
+        var en = new Enumerator(fso.GetFolder(tplDir).Files);
+        for (; !en.atEnd(); en.moveNext()) {
+            var f = en.item();
+            if (/\.psd1$/i.test(f.Name)) {
+                var n  = f.Name.replace(/\.psd1$/i, '');
+                var op = document.createElement('option');
+                op.value = n;
+                op.text  = n;
+                sel.add(op);
+            }
+        }
+    }
+    sel.value = getSavedTemplate();
+}
+
+function onTemplateChange() {
+    saveTemplate(document.getElementById('tplSelect').value);
+    doRescan();
+}
+
+function doEditTemplate() {
+    var n = document.getElementById('tplSelect').value;
+    if (!n) {
+        document.getElementById('message').innerText = 'Select a template first';
+        return;
+    }
+    sh.Run('notepad.exe "' + tplDir + '\\' + n + '.psd1"', 1, false);
+    document.getElementById('message').innerText = 'Save the template file, then click RESCAN ALL';
 }
 
 // ---- Buttons ----
@@ -242,7 +310,7 @@ function render() {
         return;
     }
 
-    document.getElementById('machine').innerText  = 'Computer: ' + esc(data.computerName);
+    document.getElementById('machine').innerText  = 'Computer: ' + esc(data.computerName) + (data.template ? '   |   Template: ' + esc(data.template) : '');
     document.getElementById('timestamp').innerText = 'Last scan: ' + esc(data.scannedAt);
     document.getElementById('counts').style.display = 'flex';
 
@@ -319,6 +387,7 @@ function render() {
 }
 
 // ---- Startup ----
+loadTemplates();
 render();
 window.setInterval(render, 2000);
 </script>
