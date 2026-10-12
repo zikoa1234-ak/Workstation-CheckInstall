@@ -1,0 +1,53 @@
+{
+    "template":  "Load Control",
+    "computerName":  "DESKTOP-873EJAF",
+    "scannedAt":  "2026-10-12T19:32:53",
+    "overallStatus":  "FAIL - WORKSTATION NOT READY",
+    "results":  [
+                    {
+                        "id":  "1.1",
+                        "name":  "APCPrereq",
+                        "requiredVersion":  "1.0.1",
+                        "installedVersion":  "",
+                        "detectedName":  "",
+                        "status":  "MISSING",
+                        "comment":  "Not installed or not detected"
+                    },
+                    {
+                        "id":  "2.1",
+                        "name":  "APC CUTE",
+                        "requiredVersion":  "5.3.1.26",
+                        "installedVersion":  "5.3.1.26",
+                        "detectedName":  "APC Install for CUTE",
+                        "status":  "PASS",
+                        "comment":  "Correct version installed"
+                    },
+                    {
+                        "id":  "5.1",
+                        "name":  "Cortex XDR Agent",
+                        "requiredVersion":  "9.1.0.20483",
+                        "installedVersion":  "",
+                        "detectedName":  "",
+                        "status":  "MISSING",
+                        "comment":  "Not installed or not detected"
+                    },
+                    {
+                        "id":  "6.1",
+                        "name":  "TeamViewer",
+                        "requiredVersion":  "",
+                        "installedVersion":  "",
+                        "detectedName":  "",
+                        "status":  "MISSING",
+                        "comment":  "Not installed or not detected"
+                    },
+                    {
+                        "id":  "7.1",
+                        "name":  "ManageEngine",
+                        "requiredVersion":  "",
+                        "installedVersion":  "",
+                        "detectedName":  "",
+                        "status":  "MISSING",
+                        "comment":  "Not installed or not detected"
+                    }
+                ]
+}
